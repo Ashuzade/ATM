@@ -2,12 +2,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+// Represents a bank account with balance, PIN, and transaction history.
 class Account {
     private int accountNumber;
     private int balance;
     private int pin;
     private List<String> transactionHistory;
 
+   //Initializes an account with the given account number, initial balance, and PIN.    
     public Account(int accountNumber, int initialBalance, int pin) {
         this.accountNumber = accountNumber;
         this.balance = initialBalance;
@@ -15,19 +17,23 @@ class Account {
         this.transactionHistory = new ArrayList<>();
     }
 
+    // function for getting account details
     public int getAccountNumber() {
         return accountNumber;
     }
 
+    //for pin checking
     public boolean checkPin(int inputPin) {
         return this.pin == inputPin;
     }
 
+    //check the balance
     public void checkBalance(String language, String[] currentBalanceMsg) {
         System.out.println(currentBalanceMsg[getLanguageIndex(language)] + balance);
         transactionHistory.add("Checked balance: Rs " + balance);
     }
 
+    //for money deposit in an account
     public void deposit(int amount, String language, String[] depositMsg, String[] invalidAmountMsg) {
         if (amount > 0) {
             balance += amount;
@@ -39,6 +45,7 @@ class Account {
         }
     }
 
+    //for money withdrawal from an account
     public void withdraw(int amount, String language, String[] withdrawMsg, String[] insufficientBalanceMsg, String[] invalidAmountMsg) {
         if (amount > 0 && amount <= balance) {
             balance -= amount;
@@ -52,6 +59,7 @@ class Account {
         }
     }
 
+    //for changing the pin
     public void changePin(Scanner sc, String language, String[] enterCurrentPinMsg, String[] enterNewPinMsg, String[] confirmNewPinMsg, String[] pinChangedMsg, String[] pinChangeFailedMsg, String[] incorrectPinMsg) {
         System.out.print(enterCurrentPinMsg[getLanguageIndex(language)]);
         int currentPin = sc.nextInt();
@@ -72,6 +80,7 @@ class Account {
         }
     }
 
+    //view complete transaction history
     public void viewTransactionHistory(String language, String[] transactionHistoryMsg) {
         System.out.println(transactionHistoryMsg[getLanguageIndex(language)]);
         for (String transaction : transactionHistory) {
@@ -79,6 +88,7 @@ class Account {
         }
     }
 
+    //for getting language number
     private int getLanguageIndex(String language) {
         switch (language) {
             case "मराठी":
@@ -90,6 +100,8 @@ class Account {
         }
     }
 }
+
+//ATM system that manages multiple accounts and supports multiple languages.
 
 public class ATM {
     private List<Account> accounts;
@@ -118,21 +130,25 @@ public class ATM {
     private final String[] pinChanged = {"PIN successfully changed.", "पिन यशस्वीरित्या बदलले.", "पिन सफलतापूर्वक बदल गया।"};
     private final String[] pinChangeFailed = {"PIN change failed.", "पिन बदलणे अयशस्वी झाले.", "पिन बदलने में विफल।"};
     private final String[] transactionHistoryMsg = {"Transaction History:", "व्यवहार इतिहास:", "लेन-देन इतिहास:"};
-    private final String[] thankYou = {"Thank you for using the ATM. Goodbye!", "ATM वापरल्याबद्दल धन्यवाद. अलविदा!", "ATM का उपयोग करने के लिए धन्यवाद। अलविदा!"};
+    private final String[] thankYou = {"Thank you for using the ATM.", "ATM वापरल्याबद्दल धन्यवाद.", "ATM का उपयोग करने के लिए धन्यवाद।"};
     private final String[] invalidOption = {"Invalid option. Please try again.", "अवैध पर्याय. कृपया पुन्हा प्रयत्न करा.", "अमान्य विकल्प। कृपया पुन: प्रयास करें।"};
 
+  //Initializes the ATM system with default settings and accounts.
+    
     public ATM() {
         accounts = new ArrayList<>();
         language = "English"; // Default language
         initializeAccounts();
     }
-
+    
+   //Adds sample accounts to the ATM system.
     private void initializeAccounts() {
         accounts.add(new Account(1, 1000, 1234)); // Account 1 with initial balance and PIN
         accounts.add(new Account(2, 2000, 2345)); // Account 2 with initial balance and PIN
         accounts.add(new Account(3, 3000, 3456)); // Account 3 with initial balance and PIN
     }
 
+    //Starts the ATM system and manages user interactions.
     public void start() {
         Scanner sc = new Scanner(System.in);
         selectLanguage(sc);
@@ -189,6 +205,8 @@ public class ATM {
         sc.close();
     }
 
+    //Prompts the user for their PIN and verifies it.
+
     private boolean requestPin(Scanner sc, Account account) {
         System.out.print(enterYourPin[getLanguageIndex()]);
         int inputPin = sc.nextInt();
@@ -199,6 +217,8 @@ public class ATM {
             return false;
         }
     }
+
+    //Allows the user to select a language.
 
     private void selectLanguage(Scanner sc) {
         System.out.println("Select Language / भाषा निवडा / भाषा चुनें:");
@@ -212,6 +232,8 @@ public class ATM {
             System.out.println("Invalid selection. Defaulting to English.");
         }
     }
+
+    //Allows the user to select an account by number.
 
     private Account selectAccount(Scanner sc) {
         System.out.println("Select Account Number:");
@@ -227,6 +249,8 @@ public class ATM {
         return null;
     }
 
+   //Returns the index for the current language.
+    
     private int getLanguageIndex() {
         switch (language) {
             case "मराठी":
@@ -237,7 +261,8 @@ public class ATM {
                 return 0;
         }
     }
-
+    
+   //main function
     public static void main(String[] args) {
         ATM atm = new ATM();
         atm.start();
