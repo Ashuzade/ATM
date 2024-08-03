@@ -88,7 +88,7 @@ class Account {
         }
     }
 
-    //for getting language number
+    //This helper method returns an index based on the selected language. It is used to select the appropriate message array.
     private int getLanguageIndex(String language) {
         switch (language) {
             case "मराठी":
@@ -249,7 +249,7 @@ public class ATM {
         return null;
     }
 
-   //Returns the index for the current language.
+   //This helper method returns an index based on the currently selected language, similar to the one in the Account class.
     
     private int getLanguageIndex() {
         switch (language) {
